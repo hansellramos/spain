@@ -13,6 +13,13 @@ you need special attention on these parameters
  - $config['min_distance']
  - $config['max_distance']
  - $config['google_maps_api_key'] -> used to test map in index.php/welcome/map url
+	
+###################
+Debug
+###################
+
+You can use this coords to test map 6.208,-75.563
+You need to emulate coords, check this url https://developers.google.com/web/tools/chrome-devtools/device-mode/device-input-and-sensors?hl=es
 
 ###################
 Author
