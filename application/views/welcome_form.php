@@ -203,7 +203,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         });
                         var count = 0;
                         // Add closests sites to select limit by max sites parameter
-                        for(site of APP.sites) {
+                        for(site of APP.sitesOrderedByClosest) {
                             count++;
                             $('#site').append('<option value="'+site.id+
                                         '" label="'+site.name+'">'+site.name+'</option>');
