@@ -32,4 +32,15 @@ class Welcome extends CI_Controller {
         
         $this->load->view('show_map', $data);
     }
+    
+    public function save() {
+        if ($this->input->method() == 'post') { 
+            $data['name'] = $this->input->post('name');
+            $data['lastname'] = $this->input->post('lastname');
+            $data['site'] = $this->input->post('site');
+            $data['created'] = date('YmdHis');
+            $this->users->add($data);
+        }
+        die;
+    }
 }
