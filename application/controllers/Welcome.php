@@ -16,8 +16,8 @@ class Welcome extends CI_Controller {
         
         $data['min_distance'] = $this->config->item('min_distance');
         $data['max_distance'] = $this->config->item('max_distance');
+        $data['max_closests_sites'] = $this->config->item('max_closests_sites');
         
-        $data['google_maps_api_key'] = $this->config->item('google_maps_api_key');
         
         // flush data to view
         $this->load->view('welcome_form', $data);

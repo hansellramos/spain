@@ -134,8 +134,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 currentLocation : {},                
                 sites : {},
+                sitesOrderedByClosest: [],
                 minDistance: <?php echo $min_distance ?>,
                 maxDistance: <?php echo $max_distance ?>,
+                maxClosestsSites: <?php echo $max_closests_sites ?>,
                 
                 /////////////
                 // Methods //
@@ -175,21 +177,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 showClosestSites : function() {
                     $('#site').html('');
                     var added = false;
+                    APP.sitesOrderedByClosest = [];
                     for(site of APP.sites) {
-                        var distance = APP.getDistanceFromLatLonInMeters(
+                        site.distance = APP.getDistanceFromLatLonInMeters(
                                     APP.currentLocation.latitude, APP.currentLocation.longitude,
                                     site.latitude, site.longitude
                                     );
-                        if (distance >= APP.minDistance && distance <= APP.maxDistance) {
-                            $('#site').append('<option value="'+site.id+
-                                    '" label="'+site.name+'">'+site.name+'</option>');
+                        // If site is closest to your location using max and min distance parameters
+                        if (site.distance >= APP.minDistance && site.distance <= APP.maxDistance) {
+                            // add to sites closest list
+                            APP.sitesOrderedByClosest.push(site);
+                            // set added flag
                             added = true;
                         }
                     }
                     // Show a message if there are no place close to current location
                     if (!added) {
-                        alert("Sorry, there are no places close to your location");
                         $("#save_form").attr('disabled','disabled');
+                        alert("Sorry, there are no places close to your location");
+                    } else { // if an least than one site is close to your location
+                        // sort sites by distance 
+                        APP.sitesOrderedByClosest.sort(function(a, b){ 
+                            return a.distance > b.distance ? 1 : 
+                                    a.distance < b.distance ? -1 : 0;
+                        });
+                        var count = 0;
+                        // Add closests sites to select limit by max sites parameter
+                        for(site of APP.sites) {
+                            count++;
+                            $('#site').append('<option value="'+site.id+
+                                        '" label="'+site.name+'">'+site.name+'</option>');
+                            if (count >= APP.maxClosestsSites) {
+                                break;
+                            }
+                        }
                     }
                  },
                 
