@@ -9,6 +9,11 @@ class Sites_model extends CI_Model {
     public $longitude;
     public $created;
     
+    /**
+     * This method is used to get all sites from database
+     * 
+     * @return Array
+     */
     public function get_all() {
         $query = $this->db->get('sites');
         return $query->result();
