@@ -595,3 +595,14 @@ $config['max_distance'] = 100;
  |
 */
 $config['google_maps_api_key'] = 'AIzaSyDDMbZrTknTd1QHdklIisAtPcjZlQCAxiU';
+
+/*
+ |--------------------------------------------------------------------------
+ | Max Closests sites
+ |--------------------------------------------------------------------------
+ |
+ | This parameter is used to set max distance between 2 points when sites are 
+ | showed, this distance is in meters
+ |
+*/
+$config['max_closests_sites'] = 3;
