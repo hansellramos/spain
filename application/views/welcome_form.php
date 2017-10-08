@@ -73,34 +73,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </script>
     </head>
     <body>
+        
+        <?php if($this->session->flashdata('message')) { ?>
+        <div id="container">
+            <div id="body">
+                <p><?php echo $this->session->flashdata('message'); ?></p>
+            </div>
+        </div>
+        <?php } ?>
 
         <div id="container">
             <h1>Registration Form</h1>
 
             <div id="body">
-                <form>
+                <?php echo form_open('welcome/save'); ?>
+                <fieldset id="save_form">
                     <div>
                         <label for="name">
                             <span>Name</span>
-                            <input type="text" name="name" id="name" placeholder="" maxlength="200">
+                            <input type="text" name="name" id="name" placeholder="" maxlength="200" required>
                         </label>
                     </div>
                     <div>
                         <label for="lastname">
                             <span>Lastname</span>
-                            <input type="text" name="lastname" id="lastname" placeholder="" maxlength="200">
+                            <input type="text" name="lastname" id="lastname" placeholder="" maxlength="200" required>
                         </label>
                     </div>
                     <div>
                         <label for="site">
                             <span>Site</span>
-                            <select name="site" id="site"></select>
+                            <select name="site" id="site" required></select>
                         </label>
                     </div>
                     <div>
-                        <button type="submit">Save</button>
+                        <input type="submit" value="Save" />
                     </div>
-                </form>
+                </fieldset>
+                <?php echo form_close(); ?>
             </div>
             
             <p class="footer">&copy; <?php echo date('Y'); ?> All rights reserved</p>
@@ -164,14 +174,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // this function is used to show in sites select if are closests 
                 showClosestSites : function() {
                     $('#site').html('');
+                    var added = false;
                     for(site of APP.sites) {
                         var distance = APP.getDistanceFromLatLonInMeters(
                                     APP.currentLocation.latitude, APP.currentLocation.longitude,
                                     site.latitude, site.longitude
                                     );
                         if (distance >= APP.minDistance && distance <= APP.maxDistance) {
-                            $('#site').append('<option>'+site.name+'</option>');
+                            $('#site').append('<option value="'+site.id+
+                                    '" label="'+site.name+'">'+site.name+'</option>');
+                            added = true;
                         }
+                    }
+                    // Show a message if there are no place close to current location
+                    if (!added) {
+                        alert("Sorry, there are no places close to your location");
+                        $("#save_form").attr('disabled','disabled');
                     }
                  },
                 
