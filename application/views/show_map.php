@@ -23,7 +23,7 @@
                 navigator.geolocation.getCurrentPosition(function(position){
                     currentLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                     var map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 10,
+                        zoom: 18,
                         center: currentLocation
                     });
                     current = new google.maps.Marker({
