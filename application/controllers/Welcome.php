@@ -3,13 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
     
-    function __construct() {
-        parent::__construct();
-        
-        $this->load->database();
-    }
-
-        /**
+    /**
      * Index Page for this controller.
      *
      * Maps to the following URL
@@ -26,8 +20,8 @@ class Welcome extends CI_Controller {
      */
     public function index()
     {
-        $this->load->model('sites_model','sites');
         $data['sites'] = $this->sites->get_all();
+        $data['location'] = get_current_location();
         $this->load->view('welcome_form', $data);
     }
 }

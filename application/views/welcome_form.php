@@ -102,6 +102,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </form>
             </div>
+            
+            <?php var_dump($location); ?>
 
             <p class="footer">&copy; <?php echo date('Y'); ?> All rights reserved</p>
         </div>
