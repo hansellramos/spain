@@ -13,6 +13,7 @@
             <ul id="sites"></ul>        
         </div>
         <div id="logout">
+            <?php echo anchor('welcome/index','Home'); ?>
             <?php echo anchor('welcome/logout','Logout'); ?>
         </div>
         <p class="footer">&copy; <?php echo date('Y'); ?> All rights reserved</p>
