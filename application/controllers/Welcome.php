@@ -33,7 +33,7 @@ class Welcome extends CI_Controller {
             ) {
                 $this->session->set_userdata(
                         'logged_in', 
-                        $this->auth->one($id)
+                        $this->accounts->one($id)
                     );
                 redirect('welcome/index');
             } else {
