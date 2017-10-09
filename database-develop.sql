@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `login`
+-- Table structure for table `accounts`
 --
 
-DROP TABLE IF EXISTS `login`;
+DROP TABLE IF EXISTS `accounts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `login` (
+CREATE TABLE `accounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -31,17 +31,17 @@ CREATE TABLE `login` (
   `is_admin` tinyint(1) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `login`
+-- Dumping data for table `accounts`
 --
 
-LOCK TABLES `login` WRITE;
-/*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES (1,'admin','62ec65bac0a0db4d6f94611eb7ec5a02','User','Admin',1,'2017-10-09 10:35:40');
-/*!40000 ALTER TABLE `login` ENABLE KEYS */;
+LOCK TABLES `accounts` WRITE;
+/*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
+INSERT INTO `accounts` VALUES (1,'admin','62ec65bac0a0db4d6f94611eb7ec5a02','User','Admin',1,'2017-10-09 10:35:40'),(2,'asd','62ec65bac0a0db4d6f94611eb7ec5a02','aaaaa','bbbb',0,'2017-10-09 15:23:45'),(3,'asd','62ec65bac0a0db4d6f94611eb7ec5a02','aaaaa','bbbb',0,'2017-10-09 15:25:06'),(4,'123','54a2ec5f4421fa24bfa9bf6461e649a2','789','012',1,'2017-10-09 17:31:52'),(5,'123','54a2ec5f4421fa24bfa9bf6461e649a2','789','012',1,'2017-10-09 17:32:40'),(6,'123','54a2ec5f4421fa24bfa9bf6461e649a2','789','012',1,'2017-10-09 17:33:09'),(7,'ppp','d4fbb7d8d5603db43ac2094f5955787c','ooo','ddd',0,'2017-10-09 17:33:38'),(8,'ddd','b176ad7e7753a1c24751490097ad292e','uuu','bbb',0,'2017-10-09 17:34:37'),(9,'ghjk','ac971e98272704a7fba6c273093c9490','yhj','gh',0,'2017-10-09 17:36:12'),(10,'tuyioipo','df1ac462402f6db34661dc2a00633cd1','hjh','vbn',0,'2017-10-09 17:59:18'),(11,'ghjkl','c5e4d3d2222aff6e69c9e02584d95751','fhgjh','uyio',0,'2017-10-09 17:59:40'),(12,'dfghjkfhvbj','3c5b5f6a4a672ff33ed7ca82ceb13e76','gfvhjbnklm','vfghjblkm',0,'2017-10-09 18:00:19'),(13,'jkaskd','53e0fded064384b0b3067a8f9e3d5d00','pmpk','pkm',0,'2017-10-09 18:00:41'),(14,'jhkl','c5e4d3d2222aff6e69c9e02584d95751','hgjk','hgjk',0,'2017-10-09 18:04:32');
+/*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -72,30 +72,34 @@ INSERT INTO `sites` VALUES (1,'la cafeteria de ARELY',6.20767130,-75.56391480,'2
 UNLOCK TABLES;
 
 --
--- Table structure for table `users`
+-- Table structure for table `tracks`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `tracks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
+CREATE TABLE `tracks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `lastname` varchar(200) NOT NULL,
-  `created` datetime NOT NULL,
-  `site` varchar(200) NOT NULL,
+  `entrance_site` varchar(200) NOT NULL,
+  `entrance_datetime` datetime NOT NULL,
+  `move_site` varchar(200) DEFAULT NULL,
+  `move_datetime` datetime DEFAULT NULL,
+  `exit_site` varchar(200) DEFAULT NULL,
+  `exit_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `tracks`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'hansel','ramos','2017-10-08 00:02:06','1'),(2,'Mayha','ramos','2017-10-08 00:03:52','2'),(4,'Uno','Dos','2017-10-08 20:15:28','0'),(5,'tres','cuatro','2017-10-08 20:16:30','0'),(6,'cinco','seis','2017-10-08 20:17:59','0'),(7,'New','Site','2017-10-08 22:40:00','la cafeteria de ARELY'),(8,'User','Admin','2017-10-09 13:06:43','Juan Valdez Cafe Vizcaya');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `tracks` WRITE;
+/*!40000 ALTER TABLE `tracks` DISABLE KEYS */;
+INSERT INTO `tracks` VALUES (1,'hansel','ramos','1','2017-10-08 00:02:06',NULL,NULL,NULL,NULL),(2,'Mayha','ramos','2','2017-10-08 00:03:52',NULL,NULL,NULL,NULL),(4,'Uno','Dos','0','2017-10-08 20:15:28',NULL,NULL,NULL,NULL),(5,'tres','cuatro','0','2017-10-08 20:16:30',NULL,NULL,NULL,NULL),(6,'cinco','seis','0','2017-10-08 20:17:59',NULL,NULL,NULL,NULL),(7,'New','Site','la cafeteria de ARELY','2017-10-08 22:40:00',NULL,NULL,NULL,NULL),(8,'User','Admin','Juan Valdez Cafe Vizcaya','2017-10-09 13:06:43',NULL,NULL,NULL,NULL),(9,'User','Admin','Juan Valdez Cafe Vizcaya','2017-10-09 17:45:41',NULL,NULL,NULL,NULL),(10,'User','Admin','Juan Valdez Cafe Vizcaya','2017-10-09 17:53:40',NULL,NULL,NULL,NULL),(11,'User','Admin','Subway','2017-10-09 17:54:03',NULL,NULL,NULL,NULL),(12,'User','Admin','Buñuelos San Lucas','2017-10-09 17:54:57',NULL,NULL,NULL,NULL),(13,'User','Admin','Juan Valdez Cafe Vizcaya','2017-10-09 17:57:34',NULL,NULL,NULL,NULL),(14,'User','Admin','Juan Valdez Cafe Vizcaya','2017-10-09 18:04:53',NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `tracks` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -107,4 +111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-09 13:37:55
+-- Dump completed on 2017-10-09 18:11:05
