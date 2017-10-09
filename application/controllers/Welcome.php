@@ -35,6 +35,7 @@ class Welcome extends CI_Controller {
                         'logged_in', 
                         $this->auth->one($id)
                     );
+                redirect('welcome/index');
             } else {
                 $this->session->set_flashdata('login_error', 'Invalid credentials');
             }
