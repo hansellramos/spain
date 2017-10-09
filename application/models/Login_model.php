@@ -34,5 +34,24 @@ class Login_model extends CI_Model {
         return $this->db->get()->row();
     }
     
+    /**
+     * This method is used to insert an login account in database 
+     * 
+     * @param Array $data
+     */
+    public function add($data) {
+        $this->db->insert('login',$data);
+    }
+    
+    /**
+     * This method is used to get all login accounts from database
+     * 
+     * @return Array
+     */
+    public function get_all() {
+        $query = $this->db->get('login');
+        return $query->result();
+    }
+    
 }
 
