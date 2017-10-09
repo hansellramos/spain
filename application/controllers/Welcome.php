@@ -1,50 +1,59 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
-    
+
     /**
      * Index Page for this controller
      */
-    public function index()
-    {
-        // get all sites
-        $data['sites'] = $this->sites->get_all();
+    public function index() {
+        redirect_if_not_login();
         
-        // get default location from server while browser data is retrieved
-        $data['default_location'] = get_current_location();
-        
-        $data['min_distance'] = $this->config->item('min_distance');
-        $data['max_distance'] = $this->config->item('max_distance');
-        $data['max_closests_sites'] = $this->config->item('max_closests_sites');
-        
-        
-        // flush data to view
-        $this->load->view('welcome_form', $data);
+        $data[] = [];
+        $data['user'] = $this->session->userdata['logged_in'];
+        $this->load->view('welcome_index', $data);
     }
-    
-    public function map() {
-        
-        // get all sites
-        $data['sites'] = $this->sites->get_all();
-        
-        $data['google_maps_api_key'] = $this->config->item('google_maps_api_key');
-        
-        $this->load->view('show_map', $data);
-    }
-    
-    public function save() {
-        if ($this->input->method() == 'post') { 
-            $data['name'] = $name = $this->input->post('name');
-            $data['lastname'] = $lastname = $this->input->post('lastname');
-            $data['site'] = $site = $this->input->post('site');
-            $data['created'] = date('YmdHis');
-            $dateString = date('Y-m-d H:i:s');
-            $this->users->add($data);
-            $this->session->set_flashdata('message'
-                    , "Info saved, Name: {$name} {$lastname}, "
-                    . "Site: {$site}, Created: {$dateString}");
+
+    /**
+     * Index Page for this controller
+     */
+    public function login() {
+
+        redirect_if_login();
+
+        if ($this->input->method() == 'post') {
+
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[200]');
+            $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]|max_length[200]');
+
+            if ($this->form_validation->run() && ($id = $this->auth->login(
+                    $this->input->post('username'), $this->input->post('password')
+                    ))
+            ) {
+                $this->session->set_userdata(
+                        'logged_in', 
+                        $this->auth->one($id)
+                    );
+                redirect('welcome/index');
+            }
         }
-        redirect('welcome/index');
+
+        $data = [];
+        $this->load->view('welcome_login', $data);
     }
+    
+    /**
+     * Logout from app
+     */
+    public function logout() {
+        $session_data = ['username' => ''];
+        
+        $this->session->unset_userdata('logged_in', $session_data);
+        
+        $this->session->set_flashdata('message', 'Successfully Logout');
+        
+        redirect_if_not_login();
+    }
+
 }
