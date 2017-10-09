@@ -5,7 +5,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Registration Form</title>
+        <?php if($this->session->flashdata('redirect')) { ?>
+        <meta http-equiv="refresh" content="<?php echo $redirect_time; ?>; url=<?php echo site_url('welcome/index') ?>" />
+        <style>
+            #container {
+                display: none;
+            }
+        </style>
+        <?php } ?>
+        <title>Track Form</title>
 
         <link href="<?php echo base_url(); ?>public/css/styles.css" rel="stylesheet" />
         
@@ -15,9 +23,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <body>
         
         <?php if($this->session->flashdata('message')) { ?>
-        <div id="container">
+        <div id="flash-message">
             <div id="body">
-                <p><?php echo $this->session->flashdata('message'); ?></p>
+                <p class="success-message"><?php echo $this->session->flashdata('message'); ?></p>
+                <?php if($this->session->flashdata('redirect')) { ?>
+                <p>Redirecting, click <?php echo anchor('welcome/index','here') ?> to go now</p> 
+                <?php } ?>
             </div>
         </div>
         <?php } ?>
@@ -33,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>Name</span>
                             <input type="text" name="name" id="name" 
                                    placeholder="" maxlength="200" required 
-                                   value="<?php echo $user->name ?>">
+                                   value="<?php echo $account->name ?>">
                         </label>
                     </div>
                     <div>
@@ -41,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>Last Name</span>
                             <input type="text" name="lastname" id="lastname"  
                                    placeholder="" maxlength="200" required 
-                                   value="<?php echo $user->lastname; ?>">
+                                   value="<?php echo $account->lastname; ?>">
                         </label>
                     </div>
                     <div>
@@ -74,7 +85,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // Attributes //
                 ////////////////
                 
-                // This variable is used to set a location while user allow to page 
+                // This variable is used to set a location while account allow to page 
                 // to get current location from navigator.geolocation object
                 defaultLocation : {
                     latitude: <?php echo floatval($default_location['latitude']); ?>,

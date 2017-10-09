@@ -1,17 +1,17 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends CI_Controller {
+class Track extends CI_Controller {
     
     public function index()
     {
         redirect_if_not_login();
         
         // get all sites
-        $data['users'] = $this->users->get_all();
+        $data['tracks'] = $this->tracks->get_all();
         
         // flush data to view
-        $this->load->view('user_list', $data);
+        $this->load->view('track_list', $data);
     }
     
     /**
@@ -24,18 +24,19 @@ class User extends CI_Controller {
         if ($this->input->method() == 'post') { 
             $data['name'] = $name = $this->input->post('name');
             $data['lastname'] = $lastname = $this->input->post('lastname');
-            $data['site'] = $site = $this->input->post('site');
-            $data['created'] = date('YmdHis');
+            $data['entrance_site'] = $site = $this->input->post('site');
+            $data['entrance_datetime'] = date('YmdHis');
             $dateString = date('Y-m-d H:i:s');
-            $this->users->add($data);
+            $this->tracks->add($data);
+            $this->session->set_flashdata('redirect',true);
             $this->session->set_flashdata('message'
-                    , "Info saved, Name: {$name} {$lastname}, "
-                    . "Site: {$site}, Created: {$dateString}");
-            redirect('user/add');
+                    , "Entrada guardada, Nombre: {$name} {$lastname}, "
+                    . "Sitio: {$site}, Fecha y Hora: {$dateString}");
         }
         
-        //Current logged user
-        $data['user'] = $this->session->userdata['logged_in'];
+        //Current logged account
+        $data['account'] = $this->session->userdata['logged_in'];
+        $data['redirect_time'] = $this->config->item('redirect_time');
         
         // get all sites
         $data['sites'] = $this->sites->get_all();
@@ -48,7 +49,7 @@ class User extends CI_Controller {
         $data['max_closests_sites'] = $this->config->item('max_closests_sites');        
         
         // flush data to view
-        $this->load->view('user_new', $data);
+        $this->load->view('track_edit', $data);
     }
     
 }

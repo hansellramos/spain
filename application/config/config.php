@@ -606,3 +606,5 @@ $config['google_maps_api_key'] = 'AIzaSyDDMbZrTknTd1QHdklIisAtPcjZlQCAxiU';
  |
 */
 $config['max_closests_sites'] = 3;
+
+$config['redirect_time'] = 3;
