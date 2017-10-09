@@ -3,6 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends CI_Controller {
     
+    public function index()
+    {
+        // get all sites
+        $data['users'] = $this->users->get_all();
+        
+        // flush data to view
+        $this->load->view('user_list', $data);
+    }
+    
     /**
      * Index Page for this controller
      */
@@ -37,4 +46,5 @@ class User extends CI_Controller {
         }
         redirect('user/add');
     }
+    
 }
