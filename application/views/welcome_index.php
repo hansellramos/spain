@@ -16,6 +16,8 @@
                 <?php echo anchor('user/add','Salida',['class'=>'option salida']); ?>
                 <?php if ($user->is_admin) { ?>
                 <br />
+                <?php echo anchor('account/add','Create Account'); ?>
+                <?php echo anchor('account/index','Accounts List'); ?>
                 <?php echo anchor('user/index','User List'); ?>
                 <?php echo anchor('site/map','Sites Map'); ?>
                 <?php }?>

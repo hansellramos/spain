@@ -15,3 +15,11 @@ function redirect_if_login() {
     }
 }
 
+function redirect_if_not_admin() {
+    $CI = get_instance();
+    $user = $CI->session->userdata['logged_in'];
+    if (!$user->is_admin) {
+        $CI->session->set_flashdata('message', 'You are not an admin');
+        redirect('welcome/index');
+    }
+}
