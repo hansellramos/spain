@@ -13,6 +13,8 @@ class Site extends CI_Controller {
     
     public function map() {
         
+        redirect_if_not_login();
+        
         // get all sites
         $data['sites'] = $this->sites->get_all();
         

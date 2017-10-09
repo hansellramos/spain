@@ -5,6 +5,8 @@ class User extends CI_Controller {
     
     public function index()
     {
+        redirect_if_not_login();
+        
         // get all sites
         $data['users'] = $this->users->get_all();
         
@@ -17,22 +19,8 @@ class User extends CI_Controller {
      */
     public function add()
     {
-        // get all sites
-        $data['sites'] = $this->sites->get_all();
+        redirect_if_not_login();
         
-        // get default location from server while browser data is retrieved
-        $data['default_location'] = get_current_location();
-        
-        $data['min_distance'] = $this->config->item('min_distance');
-        $data['max_distance'] = $this->config->item('max_distance');
-        $data['max_closests_sites'] = $this->config->item('max_closests_sites');
-        
-        
-        // flush data to view
-        $this->load->view('user_new', $data);
-    }
-    
-    public function save() {
         if ($this->input->method() == 'post') { 
             $data['name'] = $name = $this->input->post('name');
             $data['lastname'] = $lastname = $this->input->post('lastname');
@@ -43,8 +31,24 @@ class User extends CI_Controller {
             $this->session->set_flashdata('message'
                     , "Info saved, Name: {$name} {$lastname}, "
                     . "Site: {$site}, Created: {$dateString}");
+            redirect('user/add');
         }
-        redirect('user/add');
+        
+        //Current logged user
+        $data['user'] = $this->session->userdata['logged_in'];
+        
+        // get all sites
+        $data['sites'] = $this->sites->get_all();
+        
+        // get default location from server while browser data is retrieved
+        $data['default_location'] = get_current_location();
+        
+        $data['min_distance'] = $this->config->item('min_distance');
+        $data['max_distance'] = $this->config->item('max_distance');
+        $data['max_closests_sites'] = $this->config->item('max_closests_sites');        
+        
+        // flush data to view
+        $this->load->view('user_new', $data);
     }
     
 }

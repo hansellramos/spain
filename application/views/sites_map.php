@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-       #map {
-        height: 400px;
-        width: 100%;
-       }
-    </style>
+      <link href="<?php echo base_url(); ?>public/css/styles.css" rel="stylesheet" />
+    
   </head>
   <body>
-    <h3>Google Maps Sites testing</h3>
-    <div id="map"></div>
-    <div id="distances"></div>
+      <div id="container">
+        <h1>Sites Location</h1>
+        <div id="body">
+            <div id="map"></div>
+            <div id="current-location"></div>        
+            <ul id="sites"></ul>        
+        </div>
+        <div id="logout">
+            <?php echo anchor('welcome/logout','Logout'); ?>
+        </div>
+        <p class="footer">&copy; <?php echo date('Y'); ?> All rights reserved</p>
+      </div>
     <script>
       var sites = JSON.parse('<?php echo str_replace("'","\'",json_encode($sites)); ?>');
       var map = {};
@@ -32,7 +37,7 @@
                             icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
                             title: 'Your location'
                         });
-                    $('#distances').append(current.title+" "+currentLocation.lat()+","+currentLocation.lng()+"<br />");
+                    $('#current-location').append(current.title+" "+currentLocation.lat()+","+currentLocation.lng()+"<br />");
                     google.maps.event.addListener(current, 'click', function(){
                         alert(this.title);
                     });
@@ -44,7 +49,7 @@
                             map: map,
                             title: "Site name: "+site.name+" Distance to your location: "+Math.round(distance)+"m"
                         });
-                        $('#distances').append(marker.title+" Coords:"+sitePosition.lat()+","+sitePosition.lng()+"<br />");
+                        $('#sites').append('<li>'+marker.title+" Coords:"+sitePosition.lat()+","+sitePosition.lng()+"</li>");
                         google.maps.event.addListener(marker, 'click', function(){
                             alert(this.title);
                         });
