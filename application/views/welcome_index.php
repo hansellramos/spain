@@ -9,16 +9,16 @@
     </head>
     <body>
         <div id="container">
-            <h1>Bienvenido <?php echo "$user->name $user->lastname ($user->username)"; ?></h1>
+            <h1>Bienvenido <?php echo "$account->name $account->lastname ($account->username)"; ?></h1>
             <div id="body">
-                <?php echo anchor('user/add','Entrada',['class'=>'option entrada']); ?>
-                <?php echo anchor('user/add','Doblaje',['class'=>'option doblaje']); ?>
-                <?php echo anchor('user/add','Salida',['class'=>'option salida']); ?>
-                <?php if ($user->is_admin) { ?>
+                <?php echo anchor('track/add','Entrada',['class'=>'option entrada']); ?>
+                <?php echo anchor('track/add','Doblaje',['class'=>'option doblaje']); ?>
+                <?php echo anchor('track/add','Salida',['class'=>'option salida']); ?>
+                <?php if ($account->is_admin) { ?>
                 <br />
                 <?php echo anchor('account/add','Create Account'); ?>
                 <?php echo anchor('account/index','Accounts List'); ?>
-                <?php echo anchor('user/index','User List'); ?>
+                <?php echo anchor('track/index','Tracks List'); ?>
                 <?php echo anchor('site/map','Sites Map'); ?>
                 <?php }?>
             </div>

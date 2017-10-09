@@ -5,6 +5,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <?php if($this->session->flashdata('redirect')) { ?>
+        <meta http-equiv="refresh" content="<?php echo $redirect_time; ?>; url=<?php echo site_url('account/index') ?>" />
+        <style>
+            #container {
+                display: none;
+            }
+        </style>
+        <?php } ?>
         <title>Create Account</title>
 
         <link href="<?php echo base_url(); ?>public/css/styles.css" rel="stylesheet" />
@@ -15,9 +23,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <body>
         
         <?php if($this->session->flashdata('message')) { ?>
-        <div id="container">
+        <div id="flash-message">
             <div id="body">
-                <p><?php echo $this->session->flashdata('message'); ?></p>
+                <p class="success-message"><?php echo $this->session->flashdata('message'); ?></p>
+                <?php if($this->session->flashdata('redirect')) { ?>
+                <p>Redirecting, click <?php echo anchor('account/index','here') ?> to go now</p> 
+                <?php } ?>
             </div>
         </div>
         <?php } ?>
@@ -74,6 +85,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             
             <div id="logout">
+                <?php if ($account->is_admin) { ?>
+                <?php echo anchor('account/index','Accounts List'); ?>
+                <?php } ?>
                 <?php echo anchor('welcome/index','Home'); ?>
                 <?php echo anchor('welcome/logout','Logout'); ?>
             </div>

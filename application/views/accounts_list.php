@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             
             <div id="logout">
-                <?php if ($user->is_admin) { ?>
+                <?php if ($account->is_admin) { ?>
                 <?php echo anchor('account/add','New Account'); ?>
                 <?php } ?>
                 <?php echo anchor('welcome/index','Home'); ?>
@@ -43,8 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // Attributes //
                 ////////////////
                 
-                users : [],
-                filteredUsers: [],
+                accounts : [],
+                filteredAccounts: [],
                 
                 /////////////
                 // Methods //
@@ -53,25 +53,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // Init function, used to inicialize APP object
                 init: function() {
                     // Init sites list from data
-                    APP.users = JSON.parse('<?php echo str_replace("'","\'",json_encode($accounts)); ?>');
+                    APP.accounts = JSON.parse('<?php echo str_replace("'","\'",json_encode($accounts)); ?>');
                     APP.initDataTable();
                 },
-                mapUsers: function() {
-                    APP.filteredUsers = [];
-                    for (user of APP.users) {
-                        APP.filteredUsers.push([
-                            user.name,
-                            user.lastname,
-                            user.username,
-                            user.is_admin
+                mapAccounts: function() {
+                    APP.filteredAccounts = [];
+                    for (account of APP.accounts) {
+                        APP.filteredAccounts.push([
+                            account.name,
+                            account.lastname,
+                            account.username,
+                            account.is_admin
                         ]);
                     }
                 },   
                 // 
                 initDataTable : function () {
-                    APP.mapUsers();
+                    APP.mapAccounts();
                     $('#table').DataTable({
-                        data: APP.filteredUsers,
+                        data: APP.filteredAccounts,
                         columns: [
                             { title: "Name" },
                             { title: "Lastname" },
