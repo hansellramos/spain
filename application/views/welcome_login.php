@@ -14,6 +14,14 @@
         </div>
         <?php } ?>
         
+        <?php if($this->session->flashdata('login_error')) { ?>
+        <div id="container">
+            <div id="body">
+                <p class="error-message"><?php echo $this->session->flashdata('login_error'); ?></p>
+            </div>
+        </div>
+        <?php } ?>
+        
         <div id="container">
             <h1>Login</h1>
             <div id="body">
