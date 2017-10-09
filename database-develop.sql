@@ -28,6 +28,7 @@ CREATE TABLE `login` (
   `password` varchar(255) NOT NULL,
   `name` varchar(200) NOT NULL,
   `lastname` varchar(200) NOT NULL,
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -39,7 +40,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES (1,'admin','62ec65bac0a0db4d6f94611eb7ec5a02','User','Admin','2017-10-09 10:35:40');
+INSERT INTO `login` VALUES (1,'admin','62ec65bac0a0db4d6f94611eb7ec5a02','User','Admin',1,'2017-10-09 10:35:40');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,7 +85,7 @@ CREATE TABLE `users` (
   `created` datetime NOT NULL,
   `site` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +94,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'hansel','ramos','2017-10-08 00:02:06','1'),(2,'Mayha','ramos','2017-10-08 00:03:52','2'),(4,'Uno','Dos','2017-10-08 20:15:28','0'),(5,'tres','cuatro','2017-10-08 20:16:30','0'),(6,'cinco','seis','2017-10-08 20:17:59','0'),(7,'New','Site','2017-10-08 22:40:00','la cafeteria de ARELY');
+INSERT INTO `users` VALUES (1,'hansel','ramos','2017-10-08 00:02:06','1'),(2,'Mayha','ramos','2017-10-08 00:03:52','2'),(4,'Uno','Dos','2017-10-08 20:15:28','0'),(5,'tres','cuatro','2017-10-08 20:16:30','0'),(6,'cinco','seis','2017-10-08 20:17:59','0'),(7,'New','Site','2017-10-08 22:40:00','la cafeteria de ARELY'),(8,'User','Admin','2017-10-09 13:06:43','Juan Valdez Cafe Vizcaya');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -106,4 +107,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-09 11:23:21
+-- Dump completed on 2017-10-09 13:37:55
