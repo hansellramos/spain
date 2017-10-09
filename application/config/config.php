@@ -521,3 +521,90 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+ |--------------------------------------------------------------------------
+ | Local server flag
+ |--------------------------------------------------------------------------
+ |
+ | You must enable this flag if you are running this app in local server 
+ |
+*/ 
+$config['local_server'] = true;
+
+/*
+ |--------------------------------------------------------------------------
+ | Default geolocation
+ |--------------------------------------------------------------------------
+ |
+ | This data must be used when is running in local server because 
+ | REMOTE_ADDR env var returns '::1' and geoplugin does not work 
+ | with this data
+ | To use this data automatically you need set local_server to TRUE
+ |
+*/
+$config['default_geolocation'] = [
+    'geoplugin_request' => '186.86.31.153',
+    'geoplugin_status'=> 200,
+    'geoplugin_credit'=> 'Some of the returned data includes GeoLite data created by MaxMind, available from http://www.maxmind.com.',
+    'geoplugin_city' => 'Medellin',
+    'geoplugin_region' => 'Antioquia',
+    'geoplugin_areaCode' => '0',
+    'geoplugin_dmaCode'=> '0', 
+    'geoplugin_countryCode'=> "CO" ,
+    'geoplugin_countryName' => "Colombia",
+    'geoplugin_continentCode' => "SA",
+    'geoplugin_latitude' => "6.20767130",
+    'geoplugin_longitude' => "-75.56391480", 
+    'geoplugin_regionCode' => "24",
+    'geoplugin_regionName' => "Medellin",
+    'geoplugin_currencyCode' => "COP",
+    'geoplugin_currencySymbol' => "$",
+    'geoplugin_currencySymbol_UTF8' => "$",
+    'geoplugin_currencyConverter' => "2934.4"
+];
+
+/*
+ |--------------------------------------------------------------------------
+ | Min Distance
+ |--------------------------------------------------------------------------
+ |
+ | This parameter is used to set min distance between 2 points when sites are
+ | showed, this distance is in meters
+ |
+*/
+$config['min_distance'] = 0;
+
+/*
+ |--------------------------------------------------------------------------
+ | Max Distance
+ |--------------------------------------------------------------------------
+ |
+ | This parameter is used to set max distance between 2 points when sites are 
+ | showed, this distance is in meters
+ |
+*/
+$config['max_distance'] = 100;
+
+/*
+ |--------------------------------------------------------------------------
+ | Google Maps API Key
+ |--------------------------------------------------------------------------
+ |
+ | This key is used when you need show coords in google maps
+ |
+*/
+$config['google_maps_api_key'] = 'AIzaSyDDMbZrTknTd1QHdklIisAtPcjZlQCAxiU';
+
+/*
+ |--------------------------------------------------------------------------
+ | Max Closests sites
+ |--------------------------------------------------------------------------
+ |
+ | This parameter is used to set max distance between 2 points when sites are 
+ | showed, this distance is in meters
+ |
+*/
+$config['max_closests_sites'] = 3;
+
+$config['redirect_time'] = 3;

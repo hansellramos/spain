@@ -1,33 +1,61 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
-    
-    function __construct() {
-        parent::__construct();
+
+    /**
+     * Index Page for this controller
+     */
+    public function index() {
+        redirect_if_not_login();
         
-        $this->load->database();
+        $data[] = [];
+        $data['account'] = $this->session->userdata['logged_in'];
+        $this->load->view('welcome_index', $data);
     }
 
-        /**
-     * Index Page for this controller.
-     *
-     * Maps to the following URL
-     * 		http://example.com/index.php/welcome
-     *	- or -
-     * 		http://example.com/index.php/welcome/index
-     *	- or -
-     * Since this controller is set as the default controller in
-     * config/routes.php, it's displayed at http://example.com/
-     *
-     * So any other public methods not prefixed with an underscore will
-     * map to /index.php/welcome/<method_name>
-     * @see https://codeigniter.com/user_guide/general/urls.html
+    /**
+     * Index Page for this controller
      */
-    public function index()
-    {
-        $this->load->model('sites_model','sites');
-        $data['sites'] = $this->sites->get_all();
-        $this->load->view('welcome_form', $data);
+    public function login() {
+
+        redirect_if_login();
+
+        if ($this->input->method() == 'post') {
+
+            $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[200]');
+            $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]|max_length[200]');
+
+            if ($this->form_validation->run() && ($id = $this->accounts->login(
+                    $this->input->post('username'), $this->input->post('password')
+                    ))
+            ) {
+                $this->session->set_userdata(
+                        'logged_in', 
+                        $this->accounts->one($id)
+                    );
+                redirect('welcome/index');
+            } else {
+                $this->session->set_flashdata('login_error', 'Invalid credentials');
+            }
+        }
+
+        $data = [];
+        $this->load->view('welcome_login', $data);
     }
+    
+    /**
+     * Logout from app
+     */
+    public function logout() {
+        $session_data = ['username' => ''];
+        
+        $this->session->unset_userdata('logged_in', $session_data);
+        
+        $this->session->set_flashdata('message', 'Successfully Logout');
+        
+        redirect_if_not_login();
+    }
+
 }
