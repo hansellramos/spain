@@ -51,6 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </label>
                     </div>
                     <div>
+                        <input type="hidden" name="type" id="type"
+                                   value="<?php echo $type; ?>">
                         <input type="submit" value="Save" />
                     </div>
                 </fieldset>
@@ -58,6 +60,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             
             <div id="logout">
+                <?php if ($user->is_admin) { ?>
+                <?php echo anchor('user/index','User List'); ?>                
+                <?php } ?>
+                <?php echo anchor('welcome/index','Home'); ?>
                 <?php echo anchor('welcome/logout','Logout'); ?>
             </div>
             
@@ -81,6 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     longitude: <?php echo floatval($default_location['longitude']); ?>
                 },
                 currentLocation : {},                
+                entryType : '<?php echo $type; ?>',                
                 sites : {},
                 sitesOrderedByClosest: [],
                 minDistance: <?php echo $min_distance ?>,
@@ -132,7 +139,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     site.latitude, site.longitude
                                     );
                         // If site is closest to your location using max and min distance parameters
-                        if (site.distance >= APP.minDistance && site.distance <= APP.maxDistance) {
+                        if (APP.entryType === 'Doblaje' // If type is 'Doblaje' show all sites
+                                || (site.distance >= APP.minDistance && site.distance <= APP.maxDistance)
+                            ) {
                             // add to sites closest list
                             APP.sitesOrderedByClosest.push(site);
                             // set added flag
@@ -155,7 +164,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             count++;
                             $('#site').append('<option value="'+site.name+
                                         '" label="'+site.name+'">'+site.name+'</option>');
-                            if (count >= APP.maxClosestsSites) {
+                            if (!APP.entryType === 'Doblaje' // Show all sites if entry type is 'Doblaje'
+                                    && count >= APP.maxClosestsSites) {
                                 break;
                             }
                         }

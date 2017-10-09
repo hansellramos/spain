@@ -17,25 +17,36 @@ class User extends CI_Controller {
     /**
      * Index Page for this controller
      */
-    public function add()
+    public function add($type = 'Entrada')
     {
+        
         redirect_if_not_login();
         
         if ($this->input->method() == 'post') { 
-            $data['name'] = $name = $this->input->post('name');
-            $data['lastname'] = $lastname = $this->input->post('lastname');
-            $data['site'] = $site = $this->input->post('site');
-            $data['created'] = date('YmdHis');
-            $dateString = date('Y-m-d H:i:s');
-            $this->users->add($data);
-            $this->session->set_flashdata('message'
-                    , "Info saved, Name: {$name} {$lastname}, "
-                    . "Site: {$site}, Created: {$dateString}");
-            redirect('user/add');
+            
+            $this->form_validation->set_rules('name', 'Name', 'trim|required|min_length[2]|max_length[200]');
+            $this->form_validation->set_rules('lastname', 'Password', 'trim|required|min_length[2]|max_length[200]');
+            $this->form_validation->set_rules('site', 'Site', 'trim|required|min_length[2]|max_length[200]');
+            
+            if ($this->form_validation->run()) {
+                $data['type'] = $type = $this->input->post('name');
+                $data['name'] = $name = $this->input->post('name');
+                $data['lastname'] = $lastname = $this->input->post('lastname');
+                $data['site'] = $site = $this->input->post('site');
+                $data['created'] = date('YmdHis');
+                $dateString = date('Y-m-d H:i:s');
+                $this->users->add($data);
+                $this->session->set_flashdata('message'
+                        , "Info saved, Name: {$name} {$lastname}, "
+                        . "Site: {$site}, Created: {$dateString}");
+                redirect('user/add');
+            }
         }
         
         //Current logged user
         $data['user'] = $this->session->userdata['logged_in'];
+        
+        $data['type'] = get_entry_type($type);
         
         // get all sites
         $data['sites'] = $this->sites->get_all();

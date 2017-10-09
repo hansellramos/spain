@@ -60,6 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             user.name,
                             user.lastname,
                             user.site,
+                            user.type,
                             new Date(user.created),
                             new Date(user.created),
                         ]);
@@ -74,6 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             { title: "Name" },
                             { title: "Lastname" },
                             { title: "Site" },
+                            { title: "Type" },
                             { title: "Date", type: "date", 
                                 render: function(date){
                                     return (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate();
