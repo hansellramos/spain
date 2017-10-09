@@ -26,6 +26,8 @@ CREATE TABLE `login` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `lastname` varchar(200) NOT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -37,7 +39,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES (1,'admin','62ec65bac0a0db4d6f94611eb7ec5a02','2017-10-09 10:35:40');
+INSERT INTO `login` VALUES (1,'admin','62ec65bac0a0db4d6f94611eb7ec5a02','User','Admin','2017-10-09 10:35:40');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-10-09 10:38:30
+-- Dump completed on 2017-10-09 11:23:21
