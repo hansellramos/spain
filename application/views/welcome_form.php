@@ -205,7 +205,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         // Add closests sites to select limit by max sites parameter
                         for(site of APP.sitesOrderedByClosest) {
                             count++;
-                            $('#site').append('<option value="'+site.id+
+                            $('#site').append('<option value="'+site.name+
                                         '" label="'+site.name+'">'+site.name+'</option>');
                             if (count >= APP.maxClosestsSites) {
                                 break;

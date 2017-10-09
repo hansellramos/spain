@@ -26,8 +26,6 @@ class Users_model extends CI_Model {
      */
     public function add($data) {
         $this->db->insert('users',$data);
-        $this->session->set_flashdata('message', 'Info saved');
-        redirect('welcome/index');
     }
     
 }

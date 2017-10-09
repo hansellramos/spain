@@ -35,12 +35,16 @@ class Welcome extends CI_Controller {
     
     public function save() {
         if ($this->input->method() == 'post') { 
-            $data['name'] = $this->input->post('name');
-            $data['lastname'] = $this->input->post('lastname');
-            $data['site'] = $this->input->post('site');
+            $data['name'] = $name = $this->input->post('name');
+            $data['lastname'] = $lastname = $this->input->post('lastname');
+            $data['site'] = $site = $this->input->post('site');
             $data['created'] = date('YmdHis');
+            $dateString = date('Y-m-d H:i:s');
             $this->users->add($data);
+            $this->session->set_flashdata('message'
+                    , "Info saved, Name: {$name} {$lastname}, "
+                    . "Site: {$site}, Created: {$dateString}");
         }
-        die;
+        redirect('welcome/index');
     }
 }
