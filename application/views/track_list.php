@@ -172,7 +172,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 // 
                 initDataTable : function () {
                     APP.mapTracks();
-                    APP.table = $('#table').DataTable({
+                    APP.table = $('#table').DataTable({                        
+                        order: [[ 1, 'asc' ]],
+                        drawCallback: function ( settings ) {
+                            var api = this.api();
+                            var rows = api.rows( {page:'current'} ).nodes();
+                            var last=null;
+
+                            api.column(1, {page:'current'} ).data().each( function ( group, i ) {
+                                if ( last !== group ) {
+                                    $(rows).eq( i ).before(
+                                        '<tr class="group"><td>Entrada:</td><td colspan="7">'+group+'</td></tr>'
+                                    );
+
+                                    last = group;
+                                }
+                            } );
+                        },
                         dom: 'Bfrtip',
                         buttons: [
                             'copy', 'csv', 'excel', 'pdf', 'print'
@@ -185,8 +201,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 render: function(date){
                                     return (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
                                             +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
-                                            +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes()
-                                            +":"+(date.getSeconds()<10 ? "0" : "")+date.getSeconds();
+                                            +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes();
                                 } 
                             },
                             { title: "Sitio de Doblaje", 
@@ -199,7 +214,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     return date ? (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
                                             +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
                                             +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes()
-                                            +":"+(date.getSeconds()<10 ? "0" : "")+date.getSeconds()
                                     : '--';
                                 } 
                             },
@@ -208,12 +222,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 render: function(date){
                                     return date ? (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
                                             +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
-                                            +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes()
-                                            +":"+(date.getSeconds()<10 ? "0" : "")+date.getSeconds()
                                     : '';
                                 } 
                             }
-                        ]
+                        ],
                     });
                 }
             };
