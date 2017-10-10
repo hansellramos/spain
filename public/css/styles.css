@@ -111,6 +111,13 @@ p.footer {
     margin: 20px 0 0 0;
 }
 
+input[type=date] {
+    width: 130px;
+}
+input[type=time] {
+    width: 100px;
+}
+
 #container, #flash-message {
     margin: 10px;
     border: 1px solid #D0D0D0;

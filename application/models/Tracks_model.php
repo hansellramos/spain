@@ -45,6 +45,17 @@ class Tracks_model extends CI_Model {
     }
     
     /**
+     * This method is used to insert an account in database 
+     * 
+     * @param int $id
+     * @param Array $data
+     */
+    public function update($id, $data) {
+        $this->db->where('id', $id);
+        $this->db->update('tracks',$data);
+    }
+    
+    /**
      * THis method return last opened track for an account
      * 
      * @param string $name

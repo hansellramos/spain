@@ -18,6 +18,9 @@
                 <br />
                 <?php echo anchor(($last_track ? "track/edit/$last_track->id/doblaje" : 'track/add/doblaje'),'Doblaje',
                         ['class'=>'option doblaje']); ?>
+                <?php if ($last_track && $last_track->move_datetime) { ?>
+                <span>Doblaje, <?php echo $last_track->move_site ?>, <?php echo $last_track->move_datetime ?></span>
+                <?php } ?>
                 <br />
                 <?php echo anchor(($last_track ? "track/edit/$last_track->id/salida" : 'track/add/salida'),'Salida',
                         ['class'=>'option salida']); ?>

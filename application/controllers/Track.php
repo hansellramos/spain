@@ -22,17 +22,19 @@ class Track extends CI_Controller {
         redirect_if_not_login();
         
         if ($this->input->method() == 'post') { 
-            $data['name'] = $name = $this->input->post('name');
-            $data['lastname'] = $lastname = $this->input->post('lastname');
-            $data['entrance_site'] = $site = $this->input->post('site');
-            $data['entrance_datetime'] = date('YmdHis');
+            $track_data['name'] = $name = $this->input->post('name');
+            $track_data['lastname'] = $lastname = $this->input->post('lastname');
+            $track_data['entrance_site'] = $site = $this->input->post('entrance_site');
+            $track_data['entrance_datetime'] = date('YmdHis');
             $dateString = date('Y-m-d H:i:s');
-            $this->tracks->add($data);
+            $this->tracks->add($track_data);
             $this->session->set_flashdata('redirect',true);
             $this->session->set_flashdata('message'
                     , "Entrada guardada, Nombre: {$name} {$lastname}, "
-                    . "Sitio: {$site}, Fecha y Hora: {$dateString}");
+                    . "Sitio de Entrada: {$site}, Fecha y Hora de Entrada: {$dateString}");
         }
+        
+        $data['type'] = 'entrada';
         
         //Current logged account
         $data['account'] = $this->session->userdata['logged_in'];
@@ -52,12 +54,32 @@ class Track extends CI_Controller {
         $this->load->view('track_edit', $data);
     }
     
-    public function edit($track_id, $type) {
+    public function edit($track_id, $type = 'entrada') {
         
         redirect_if_not_login();
         
         $data['track'] = $track = $this->tracks->one($track_id);
         $data['type'] = $type;
+        
+        if ($this->input->method() == 'post') { 
+            $dateString = date('Y-m-d H:i:s');
+            if ($type === 'doblaje') {
+                $track_data['move_site'] = $site = $this->input->post('move_site');
+                $track_data['move_datetime'] = date('YmdHis');
+                $message = "Doblaje guardado, Nombre: {$track->name} {$track->lastname}, "
+                    . "Sitio de Doblaje: {$site}, Fecha y Hora de doblaje: {$dateString}";
+            } else if ($type === 'salida') {
+                $track_data['exit_site'] = $site = $this->input->post('exit_site');
+                $track_data['exit_datetime'] = date('YmdHis');            
+                $message = "Salida guardada, Nombre: {$track->name} {$track->lastname}, "
+                    . "Sitio de Salida: {$site}, Fecha y Hora de salida: {$dateString}";
+            }
+            
+            $this->tracks->update($track_id, $track_data);
+            $this->session->set_flashdata('redirect',true);
+            $this->session->set_flashdata('message'
+                    , $message);
+        }
         
         //Current logged account
         $data['account'] = $this->session->userdata['logged_in'];

@@ -151,6 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     latitude: <?php echo floatval($default_location['latitude']); ?>,
                     longitude: <?php echo floatval($default_location['longitude']); ?>
                 },
+                entryType : '<?php echo $type; ?>',                
                 currentLocation : {},                
                 sites : {},
                 sitesOrderedByClosest: [],
@@ -209,6 +210,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             // set added flag
                             added = true;
                         }
+                        $('#move_site').append('<option value="'+site.name+
+                                        '" label="'+site.name+'">'+site.name+'</option>');
                     }
                     // Show a message if there are no place close to current location
                     if (!added) {
@@ -229,11 +232,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             if (count >= APP.maxClosestsSites) {
                                 break;
                             }
-                        }
-                        $('#move_site').html();
-                        for(site of APP.sites) {
-                            $('#move_site').append('<option value="'+site.name+
-                                        '" label="'+site.name+'">'+site.name+'</option>');
                         }
                     }
                  },
