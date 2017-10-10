@@ -198,7 +198,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 initDataTable : function () {
                     APP.mapTracks();
                     APP.table = $('#table').DataTable({                        
-                        order: [[ 1, 'asc' ]],
+                        order: [[ 2, 'desc' ]],
                         drawCallback: function ( settings ) {
                             var api = this.api();
                             var rows = api.rows( {page:'current'} ).nodes();
