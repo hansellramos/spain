@@ -42,33 +42,99 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div>
                         <label for="name">
                             <span>Name</span>
+                            <?php if (isset($track)) { ?>
+                            <span class="value"><?php echo $track->name; ?></span>
+                            <?php } else { ?>                            
                             <input type="text" name="name" id="name" 
                                    placeholder="" maxlength="200" required 
-                                   value="<?php echo $account->name ?>">
+                                   value="<?php echo $account->name; ?>">
+                            <?php } ?>
                         </label>
                     </div>
                     <div>
                         <label for="lastname">
                             <span>Last Name</span>
+                            <?php if (isset($track)) { ?>
+                            <span class="value"><?php echo $track->lastname; ?></span>
+                            <?php } else { ?>      
                             <input type="text" name="lastname" id="lastname"  
                                    placeholder="" maxlength="200" required 
                                    value="<?php echo $account->lastname; ?>">
+                            <?php } ?>
                         </label>
                     </div>
+                    
+                    <div>
+                        <label for="entrance_site">
+                            <span>Sitio de Entrada</span>
+                            <?php if (isset($track)) { ?>
+                            <span class="value"><?php echo $track->entrance_site; ?></span>
+                            <?php } else { ?>
+                            <select class="sites" name="entrance_site" id="entrance_site" required></select>
+                            <?php } ?>
+                        </label>
+                    </div>
+                    <?php if (isset($track)) { ?>
                     <div>
                         <label for="site">
-                            <span>Site</span>
-                            <select name="site" id="site" required></select>
+                            <span>Fecha y Hora de Entrada</span>
+                            <span class="value"><?php echo $track->entrance_datetime; ?></span>
                         </label>
                     </div>
+                    <?php } ?>
+                    
+                    <?php if (isset($track) && ($type === 'doblaje' || $track->move_datetime)) { ?>
                     <div>
+                        <label for="move_site">
+                            <span>Sitio de Doblaje</span>
+                            <?php if ($track->move_datetime) { ?>
+                            <span class="value"><?php echo $track->move_site; ?></span>
+                            <?php } else { ?>
+                            <select class="sites" name="move_site" id="move_site" required></select>
+                            <?php } ?>
+                        </label>
+                    </div>
+                    <?php if ($track->move_datetime) { ?>
+                    <div>
+                        <label for="">
+                            <span>Fecha y Hora de Doblaje</span>
+                            <span class="value"><?php echo $track->entrance_datetime; ?></span>
+                        </label>
+                    </div>
+                    <?php } ?>
+                    <?php } ?>
+                    
+                    <?php if (isset($track)  && $type === 'salida') { ?>
+                    <div>
+                        <label for="exit_site">
+                            <span>Sitio de Salida</span>
+                            <?php if ($track->exit_datetime) { ?>
+                            <span class="value"><?php echo $track->exit_site; ?></span>
+                            <?php } else { ?>
+                            <select class="sites" name="exit_site" id="exit_site" required></select>
+                            <?php } ?>
+                        </label>
+                    </div>
+                    <?php } ?>
+                    
+                    <div>
+                        <?php if (isset($track)) { ?>
+                        <input type="hidden" name='id' value="<?php echo $track->id; ?>" />
+                        <?php } ?>
+                        <?php if (isset($track)  && $type === 'salida') { ?>
+                        <input type="hidden" name='type' id='type' value="<?php echo $type; ?>" />
+                        <input type="submit" onclick="$('#type').val('cierre')" value="Cierre" />
+                        <input type="submit" value="Salida sin Cierre" />
+                        <?php } else { ?>
                         <input type="submit" value="Save" />
+                        <?php } ?>
                     </div>
                 </fieldset>
                 <?php echo form_close(); ?>
             </div>
             
             <div id="logout">
+                <?php echo anchor('welcome/index','Home'); ?>
                 <?php echo anchor('welcome/logout','Logout'); ?>
             </div>
             
@@ -91,6 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     latitude: <?php echo floatval($default_location['latitude']); ?>,
                     longitude: <?php echo floatval($default_location['longitude']); ?>
                 },
+                entryType : '<?php echo $type; ?>',                
                 currentLocation : {},                
                 sites : {},
                 sitesOrderedByClosest: [],
@@ -134,7 +201,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         
                 // this function is used to show in sites select if are closests 
                 showClosestSites : function() {
-                    $('#site').html('');
+                    $('.sites').html('');
                     var added = false;
                     APP.sitesOrderedByClosest = [];
                     for(site of APP.sites) {
@@ -149,6 +216,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             // set added flag
                             added = true;
                         }
+                        $('#move_site').append('<option value="'+site.name+
+                                        '" label="'+site.name+'">'+site.name+'</option>');
                     }
                     // Show a message if there are no place close to current location
                     if (!added) {
@@ -164,7 +233,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         // Add closests sites to select limit by max sites parameter
                         for(site of APP.sitesOrderedByClosest) {
                             count++;
-                            $('#site').append('<option value="'+site.name+
+                            $('.sites').append('<option value="'+site.name+
                                         '" label="'+site.name+'">'+site.name+'</option>');
                             if (count >= APP.maxClosestsSites) {
                                 break;
