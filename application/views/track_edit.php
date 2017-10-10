@@ -121,7 +121,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <?php if (isset($track)) { ?>
                         <input type="hidden" name='id' value="<?php echo $track->id; ?>" />
                         <?php } ?>
+                        <?php if (isset($track)  && $type === 'salida') { ?>
+                        <input type="hidden" name='type' id='type' value="<?php echo $type; ?>" />
+                        <input type="submit" onclick="$('#type').val('cierre')" value="Cierre" />
+                        <input type="submit" value="Salida sin Cierre" />
+                        <?php } else { ?>
                         <input type="submit" value="Save" />
+                        <?php } ?>
                     </div>
                 </fieldset>
                 <?php echo form_close(); ?>

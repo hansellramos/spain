@@ -54,6 +54,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 Hasta: <input type="date" class="search" id="search-exit-date-to"><input type="time" class="search" id="search-exit-time-to">
                             </label>
                         </td>
+                        <td><input type="text" class="search" id="search-close-site" placeholder="Buscar Por Sitio de Cierre"></td>
+                        <td>
+                            <label>
+                                Desde: <input type="date" class="search" id="search-close-date-from"><input type="time" class="search" id="search-close-time-from"><br />
+                                Hasta: <input type="date" class="search" id="search-close-date-to"><input type="time" class="search" id="search-close-time-to">
+                            </label>
+                        </td>
                         </tr>
                     </tfoot>
                 </table>
@@ -112,6 +119,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 new Date($("#search-exit-date-to").val()+" "+(
                                         $("#search-exit-time-to").val() ? $("#search-exit-time-to").val() : '23:59:59'
                                         )) : null;
+                            var search_close_site = $("#search-close-site").val();
+                            var search_close_date_from = $("#search-close-date-from").val() ? 
+                                new Date($("#search-close-date-from").val()+" "+$("#search-close-time-from").val()) : null;
+                            var search_close_date_to = $("#search-close-date-to").val() ? 
+                                new Date($("#search-close-date-to").val()+" "+(
+                                        $("#search-close-time-to").val() ? $("#search-close-time-to").val() : '23:59:59'
+                                        )) : null;
                             // very very very hard filter
                             if(search_name.length > 0 
                                     || search_entrance_site.length > 0
@@ -123,6 +137,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     || search_exit_site.length > 0
                                     || search_exit_date_from
                                     || search_exit_date_to
+                                    || search_close_site.length > 0
+                                    || search_close_date_from
+                                    || search_close_date_to
                                 ) {
                                 filtered = true;
                                 if (search_name.length > 0) 
@@ -145,6 +162,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     if(search_exit_date_from.getTime() <= new Date(data[6]).getTime()) { valid = true; } else {return false; }
                                 if (search_exit_date_to && data[6] !== '--' && data[6] !== '')
                                     if(search_exit_date_to.getTime() >= new Date(data[6]).getTime() ) { valid = true; } else {return false; }
+                                if (search_close_site.length > 0)
+                                    if(data[7].toLowerCase().indexOf(search_close_site.toLowerCase()) >= 0) { valid = true; } else { return false; }
+                                if (search_close_date_from && data[8] !== '--' && data[8] !== '')
+                                    if(search_close_date_from.getTime() <= new Date(data[8]).getTime()) { valid = true; } else {return false; }
+                                if (search_close_date_to && data[8] !== '--' && data[8] !== '')
+                                    if(search_close_date_to.getTime() >= new Date(data[8]).getTime() ) { valid = true; } else {return false; }
                             }                          
                             
                             return !filtered || valid;
@@ -166,6 +189,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             track.move_datetime ? new Date(track.move_datetime) : '',
                             track.exit_site,
                             track.exit_datetime ? new Date(track.exit_datetime) : '',
+                            track.close_site,
+                            track.close_datetime ? new Date(track.close_datetime) : '',
                         ]);
                     }
                 },   
@@ -182,7 +207,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             api.column(1, {page:'current'} ).data().each( function ( group, i ) {
                                 if ( last !== group ) {
                                     $(rows).eq( i ).before(
-                                        '<tr class="group"><td>Entrada:</td><td colspan="7">'+group+'</td></tr>'
+                                        '<tr class="group"><td>Entrada:</td><td colspan="8">'+group+'</td></tr>'
                                     );
 
                                     last = group;
@@ -197,7 +222,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         columns: [
                             { title: "Nombres y Apellidos" },
                             { title: "Sitio de Entrada" },
-                            { title: "Fecha y Hora de Entrada", type: "date", 
+                            { title: "Fecha y Hora de Entrada",  
                                 render: function(date){
                                     return (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
                                             +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
@@ -209,7 +234,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     return data ? data : '--'
                                 }
                             },
-                            { title: "Fecha y Hora de Doblaje", type: "date", 
+                            { title: "Fecha y Hora de Doblaje", 
                                 render: function(date){
                                     return date ? (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
                                             +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
@@ -217,12 +242,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     : '--';
                                 } 
                             },
-                            { title: "Sitio de Salida" },
-                            { title: "Fecha y Hora de Salida", type: "date", 
-                                render: function(date){
+                            { title: "Sitio de Salida" , 
+                                render: function(data, type, row){
+                                    return data ? data : (row[8] ? '--' : '');
+                                }
+                            },
+                            { title: "Fecha y Hora de Salida", 
+                                render: function(date, type, row){
                                     return date ? (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
                                             +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
-                                    : '';
+                                            +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes()
+                                    : (row[8] ? '--' : '');
+                                } 
+                            },
+                            { title: "Sitio de Cierre", 
+                                render: function(data, type, row){
+                                    return data ? data : (row[6] ? 'NO' : '');
+                                }
+                            },
+                            { title: "Fecha y Hora de Cierre",  
+                                render: function(date, type, row){
+                                    return date ? (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
+                                            +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
+                                            +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes()
+                                    : (row[6] ? 'NO' : '');
                                 } 
                             }
                         ],
