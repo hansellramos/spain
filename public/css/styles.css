@@ -133,3 +133,9 @@ input[type=time] {
 .success-message {
     color: green;
 }
+
+tr.group {
+    font-weight: bold;
+    background-color: #9e9e9e !important;
+    font-size: 18px;
+}
