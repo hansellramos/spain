@@ -42,25 +42,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div>
                         <label for="name">
                             <span>Name</span>
-                            <?php if (isset($track)) { ?>
-                            <span class="value"><?php echo $track->name; ?></span>
-                            <?php } else { ?>                            
-                            <input type="text" name="name" id="name" 
+                            <span class="value"><?php echo $account->name; ?></span>
+                            <input type="hidden" name="name" id="name" 
                                    placeholder="" maxlength="200" required 
                                    value="<?php echo $account->name; ?>">
-                            <?php } ?>
                         </label>
                     </div>
                     <div>
                         <label for="lastname">
                             <span>Last Name</span>
-                            <?php if (isset($track)) { ?>
-                            <span class="value"><?php echo $track->lastname; ?></span>
-                            <?php } else { ?>      
-                            <input type="text" name="lastname" id="lastname"  
+                            <span class="value"><?php echo $account->lastname; ?></span>
+                            <input type="hidden" name="lastname" id="lastname"  
                                    placeholder="" maxlength="200" required 
                                    value="<?php echo $account->lastname; ?>">
-                            <?php } ?>
                         </label>
                     </div>
                     
