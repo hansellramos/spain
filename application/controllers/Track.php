@@ -52,4 +52,30 @@ class Track extends CI_Controller {
         $this->load->view('track_edit', $data);
     }
     
+    public function edit($track_id, $type) {
+        
+        redirect_if_not_login();
+        
+        $data['track'] = $track = $this->tracks->one($track_id);
+        $data['type'] = $type;
+        
+        //Current logged account
+        $data['account'] = $this->session->userdata['logged_in'];
+        $data['redirect_time'] = $this->config->item('redirect_time');
+        
+        // get all sites
+        $data['sites'] = $this->sites->get_all();
+        
+        // get default location from server while browser data is retrieved
+        $data['default_location'] = get_current_location();
+        
+        $data['min_distance'] = $this->config->item('min_distance');
+        $data['max_distance'] = $this->config->item('max_distance');
+        $data['max_closests_sites'] = $this->config->item('max_closests_sites');  
+        
+        // flush data to view
+        $this->load->view('track_edit', $data);
+        
+    }
+    
 }

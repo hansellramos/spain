@@ -11,7 +11,11 @@ class Welcome extends CI_Controller {
         redirect_if_not_login();
         
         $data[] = [];
-        $data['account'] = $this->session->userdata['logged_in'];
+        $data['account'] = $account = $this->session->userdata['logged_in'];
+        
+        $data['last_track'] = 
+                $this->tracks->get_last_track_open($account->name, $account->lastname);
+        
         $this->load->view('welcome_index', $data);
     }
 

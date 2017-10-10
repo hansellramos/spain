@@ -24,6 +24,17 @@ class Tracks_model extends CI_Model {
     }
     
     /**
+     * This method is used to get all tracks from database
+     * 
+     * @return Array
+     */
+    public function one($id) {
+        $this->db->where('id',$id);
+        $query = $this->db->get('tracks');
+        return $query->row();
+    }
+    
+    /**
      * This method is used to insert an account in database 
      * 
      * @param Array $data
@@ -31,6 +42,23 @@ class Tracks_model extends CI_Model {
     public function add($data) {
         $this->db->insert('tracks',$data);
         return $this->db->insert_id();
+    }
+    
+    /**
+     * THis method return last opened track for an account
+     * 
+     * @param string $name
+     * @param string $lastname
+     * @return Array
+     */
+    public function get_last_track_open($name, $lastname) {
+        $this->db->where('name',$name);
+        $this->db->where('lastname',$lastname);
+        $this->db->where('exit_datetime IS NULL');
+        $this->db->order_by('id DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('tracks');
+        return $query->row();
     }
     
 }
