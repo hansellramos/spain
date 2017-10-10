@@ -69,10 +69,17 @@ class Track extends CI_Controller {
                 $message = "Doblaje guardado, Nombre: {$track->name} {$track->lastname}, "
                     . "Sitio de Doblaje: {$site}, Fecha y Hora de doblaje: {$dateString}";
             } else if ($type === 'salida') {
-                $track_data['exit_site'] = $site = $this->input->post('exit_site');
-                $track_data['exit_datetime'] = date('YmdHis');            
-                $message = "Salida guardada, Nombre: {$track->name} {$track->lastname}, "
-                    . "Sitio de Salida: {$site}, Fecha y Hora de salida: {$dateString}";
+                if ($this->input->post('type') === 'cierre') {
+                    $track_data['close_site'] = $site = $this->input->post('exit_site');
+                    $track_data['close_datetime'] = date('YmdHis');
+                    $message = "Cierre guardado, Nombre: {$track->name} {$track->lastname}, "
+                        . "Sitio de Cierre: {$site}, Fecha y Hora de salida: {$dateString}";
+                } else {
+                    $track_data['exit_site'] = $site = $this->input->post('exit_site');
+                    $track_data['exit_datetime'] = date('YmdHis');
+                    $message = "Salida guardada, Nombre: {$track->name} {$track->lastname}, "
+                        . "Sitio de Salida: {$site}, Fecha y Hora de salida: {$dateString}";
+                }
             }
             
             $this->tracks->update($track_id, $track_data);

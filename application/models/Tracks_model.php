@@ -12,6 +12,8 @@ class Tracks_model extends CI_Model {
     public $move_datetime;
     public $exit_site;
     public $exit_datetime;
+    public $close_site;
+    public $close_datetime;
     
     /**
      * This method is used to get all tracks from database
@@ -66,6 +68,7 @@ class Tracks_model extends CI_Model {
         $this->db->where('name',$name);
         $this->db->where('lastname',$lastname);
         $this->db->where('exit_datetime IS NULL');
+        $this->db->where('close_datetime IS NULL');
         $this->db->order_by('id DESC');
         $this->db->limit(1);
         $query = $this->db->get('tracks');
