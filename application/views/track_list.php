@@ -165,7 +165,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 initDataTable : function () {
                     APP.mapTracks();
                     APP.table = $('#table').DataTable({
-                        searching: false,
                         data: APP.filteredTracks,
                         columns: [
                             { title: "Nombres y Apellidos" },
