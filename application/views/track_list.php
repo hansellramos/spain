@@ -9,8 +9,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <link href="<?php echo base_url(); ?>public/css/styles.css" rel="stylesheet" />
         <link href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.4.2/js/buttons.flash.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+        <script src="//cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
     </script>
     </head>
     <body>
@@ -165,6 +173,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 initDataTable : function () {
                     APP.mapTracks();
                     APP.table = $('#table').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ],
                         data: APP.filteredTracks,
                         columns: [
                             { title: "Nombres y Apellidos" },
