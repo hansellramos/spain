@@ -134,6 +134,6 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
     'sites_model'=>'sites',
-    'users_model'=>'users',
-    'login_model'=>'auth'
+    'tracks_model'=>'tracks',
+    'accounts_model'=>'accounts'
     );

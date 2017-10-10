@@ -11,7 +11,11 @@ class Welcome extends CI_Controller {
         redirect_if_not_login();
         
         $data[] = [];
-        $data['user'] = $this->session->userdata['logged_in'];
+        $data['account'] = $account = $this->session->userdata['logged_in'];
+        
+        $data['last_track'] = 
+                $this->tracks->get_last_track_open($account->name, $account->lastname);
+        
         $this->load->view('welcome_index', $data);
     }
 
@@ -27,13 +31,13 @@ class Welcome extends CI_Controller {
             $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[3]|max_length[200]');
             $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]|max_length[200]');
 
-            if ($this->form_validation->run() && ($id = $this->auth->login(
+            if ($this->form_validation->run() && ($id = $this->accounts->login(
                     $this->input->post('username'), $this->input->post('password')
                     ))
             ) {
                 $this->session->set_userdata(
                         'logged_in', 
-                        $this->auth->one($id)
+                        $this->accounts->one($id)
                     );
                 redirect('welcome/index');
             } else {
