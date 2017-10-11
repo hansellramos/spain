@@ -139,3 +139,6 @@ tr.group {
     background-color: #9e9e9e !important;
     font-size: 18px;
 }
+.hidden {
+    display: none;
+}
