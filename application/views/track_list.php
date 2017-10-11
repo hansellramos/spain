@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div id="container">
             <h1>Tracks List</h1>
 
-            <div id="body">
+            <div id="body"> 
                 <table id="table" class="stripe">
                     <thead></thead>
                     <tbody></tbody>
@@ -34,29 +34,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <tr>
                         <td><input type="text" class="search" id="search-name" placeholder="Buscar Por Nombre"></td>
                         <td><input type="text" class="search" id="search-entrance-site" placeholder="Buscar Por Sitio de Entrada"></td>
-                        <td>
+                        <td colspan="5">
                             <label>
-                                Desde: <input type="date" class="search" id="search-entrance-date-from"><input type="time" class="search" id="search-entrance-time-from"><br />
+                                Desde: <input type="date" class="search" id="search-entrance-date-from"><input type="time" class="search" id="search-entrance-time-from">
                                 Hasta: <input type="date" class="search" id="search-entrance-date-to"><input type="time" class="search" id="search-entrance-time-to">
                             </label>
                         </td>
-                        <td><input type="text" class="search" id="search-move-site" placeholder="Buscar Por Sitio de Doblaje"></td>
                         <td>
-                            <label>
+                            <input type="text" class="search hidden" id="search-move-site" placeholder="Buscar Por Sitio de Doblaje">
+                            <label class="hidden">
                                 Desde: <input type="date" class="search" id="search-move-date-from"><input type="time" class="search" id="search-move-time-from"><br />
                                 Hasta: <input type="date" class="search" id="search-move-date-to"><input type="time" class="search" id="search-move-time-to">
                             </label>
-                        </td>
-                        <td><input type="text" class="search" id="search-exit-site" placeholder="Buscar Por Sitio de Salida"></td>
-                        <td>
-                            <label>
+                            <input type="text" class="search hidden" id="search-exit-site" placeholder="Buscar Por Sitio de Salida">
+                            <label hidden="">
                                 Desde: <input type="date" class="search" id="search-exit-date-from"><input type="time" class="search" id="search-exit-time-from"><br />
                                 Hasta: <input type="date" class="search" id="search-exit-date-to"><input type="time" class="search" id="search-exit-time-to">
                             </label>
-                        </td>
-                        <td><input type="text" class="search" id="search-close-site" placeholder="Buscar Por Sitio de Cierre"></td>
-                        <td>
-                            <label>
+                            <input type="text" class="search hidden" id="search-close-site" placeholder="Buscar Por Sitio de Cierre">
+                            <label class="hidden">
                                 Desde: <input type="date" class="search" id="search-close-date-from"><input type="time" class="search" id="search-close-time-from"><br />
                                 Hasta: <input type="date" class="search" id="search-close-date-to"><input type="time" class="search" id="search-close-time-to">
                             </label>
@@ -184,20 +180,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         APP.filteredTracks.push([
                             track.name + ' ' + track.lastname,
                             track.entrance_site,
-                            new Date(track.entrance_datetime),
+                            track.entrance_datetime,
                             track.move_site,
-                            track.move_datetime ? new Date(track.move_datetime) : '',
+                            track.move_datetime,
                             track.exit_site,
-                            track.exit_datetime ? new Date(track.exit_datetime) : '',
+                            track.exit_datetime,
                             track.close_site,
-                            track.close_datetime ? new Date(track.close_datetime) : '',
+                            track.close_datetime,
                         ]);
                     }
                 },   
                 // 
                 initDataTable : function () {
                     APP.mapTracks();
-                    APP.table = $('#table').DataTable({                        
+                    APP.table = $('#table').DataTable({ 
+                        scrollX: true,
                         order: [[ 2, 'desc' ]],
                         drawCallback: function ( settings ) {
                             var api = this.api();
@@ -222,13 +219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         columns: [
                             { title: "Nombres y Apellidos" },
                             { title: "Sitio de Entrada" },
-                            { title: "Fecha y Hora de Entrada",  
-                                render: function(date){
-                                    return (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
-                                            +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
-                                            +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes();
-                                } 
-                            },
+                            { title: "Fecha y Hora de Entrada"},
                             { title: "Sitio de Doblaje", 
                                 render: function(data){
                                     return data ? data : '--'
@@ -236,10 +227,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             },
                             { title: "Fecha y Hora de Doblaje", 
                                 render: function(date){
-                                    return date ? (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
-                                            +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
-                                            +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes()
-                                    : '--';
+                                    return date ? date : '--';
                                 } 
                             },
                             { title: "Sitio de Salida" , 
@@ -249,10 +237,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             },
                             { title: "Fecha y Hora de Salida", 
                                 render: function(date, type, row){
-                                    return date ? (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
-                                            +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
-                                            +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes()
-                                    : (row[8] ? '--' : '');
+                                    return date ? date : (row[8] ? '--' : '');
                                 } 
                             },
                             { title: "Sitio de Cierre", 
@@ -262,13 +247,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             },
                             { title: "Fecha y Hora de Cierre",  
                                 render: function(date, type, row){
-                                    return date ? (date.getYear()+1900)+"-"+(date.getMonth()+1)+"-"+date.getDate()
-                                            +" "+(date.getHours()<10 ? "0" : "")+date.getHours()
-                                            +":"+(date.getMinutes()<10 ? "0" : "")+date.getMinutes()
-                                    : (row[6] ? 'NO' : '');
+                                    return date ? date : (row[6] ? 'NO' : '');
                                 } 
                             }
                         ],
+                        columnDefs: [
+                            { "width": "150px", "targets": [0,1,2,3,4,5,6,7,8] }
+                        ],
+                        pagingType: "full_numbers"
                     });
                 }
             };
